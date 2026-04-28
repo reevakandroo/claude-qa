@@ -1,0 +1,2806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CardioCheck — Test Execution Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#202124}
+.hdr{background:#1a73e8;color:#fff;padding:18px 32px}
+.hdr h1{font-size:22px;font-weight:600}
+.hdr .sub{font-size:12px;opacity:.8;margin-top:3px}
+.wrap{max-width:1440px;margin:0 auto;padding:20px 32px}
+.meta{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:20px}
+.mf label{font-size:10px;font-weight:700;text-transform:uppercase;color:#666;display:block;margin-bottom:3px}
+.mf input{padding:6px 10px;border:1px solid #dadce0;border-radius:4px;font-size:13px;width:180px}
+.btn{padding:7px 16px;background:#1a73e8;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:500}
+.btn:hover{opacity:.88}
+.btn2{background:#fff;color:#1a73e8;border:1px solid #1a73e8}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-bottom:20px}
+.sc{background:#fff;border:1px solid #dadce0;border-radius:8px;padding:14px;text-align:center}
+.sc .n{font-size:30px;font-weight:700;line-height:1}
+.sc .l{font-size:11px;color:#666;margin-top:4px;text-transform:uppercase;font-weight:600}
+.sc.tot .n{color:#1a73e8}.sc.pnd .n{color:#9e9e9e}.sc.pas .n{color:#34a853}
+.sc.fal .n{color:#ea4335}.sc.blk .n{color:#ff6d00}.sc.skp .n{color:#757575}
+.bar{height:7px;background:#dadce0;border-radius:4px;overflow:hidden;margin-bottom:4px}
+.bfill{height:100%;background:linear-gradient(90deg,#34a853,#1a73e8);border-radius:4px;transition:width .3s}
+.prate{font-size:11px;color:#666;margin-bottom:18px}
+.card{background:#fff;border:1px solid #dadce0;border-radius:8px;margin-bottom:20px;overflow:hidden}
+.ch{padding:14px 18px;border-bottom:1px solid #dadce0;display:flex;justify-content:space-between;align-items:center}
+.ch h2{font-size:15px;font-weight:600}
+.fbar{padding:10px 18px;background:#f8f9fa;border-bottom:1px solid #dadce0;display:flex;gap:8px;flex-wrap:wrap}
+.fbar select,.fbar input{padding:5px 9px;border:1px solid #dadce0;border-radius:4px;font-size:12px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#f1f3f4;padding:9px 11px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;color:#5f6368;border-bottom:1px solid #dadce0}
+td{padding:9px 11px;border-bottom:1px solid #f1f3f4;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8f9fa}
+.mono{font-family:monospace;font-weight:700;color:#1a73e8;white-space:nowrap}
+.sm{font-size:11px;color:#5f6368;white-space:nowrap}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;text-transform:uppercase}
+.badge.pos{background:#e6f4ea;color:#137333}
+.badge.neg{background:#fce8e6;color:#c5221f}
+.badge.edg{background:#fef7e0;color:#b06000}
+.sel{padding:4px 5px;border:1px solid #dadce0;border-radius:4px;font-size:11px;background:#fff;width:100px}
+.note{padding:4px 7px;border:1px solid #dadce0;border-radius:4px;font-size:11px;width:180px}
+.c{text-align:center}.pos{color:#137333;font-weight:600}.neg{color:#c5221f;font-weight:600}.edg{color:#b06000;font-weight:600}
+@media print{.btn,.btn2,.fbar,.sel,.note{display:none}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <h1>CardioCheck — Test Execution Report</h1>
+  <div class="sub">Generated: <span id="gd">2026-04-28 15:14</span></div>
+</div>
+<div class="wrap">
+
+  <div class="meta">
+    <div class="mf"><label>Product Version</label><input id="ver" value="1.0.0" placeholder="e.g. 1.0.0" oninput="retitle()"/></div>
+    <div class="mf"><label>Test Cycle</label><input id="cyc" value="TC-001" placeholder="e.g. TC-001" oninput="retitle()"/></div>
+    <div class="mf"><label>Environment</label><input id="env" value="UAT" placeholder="UAT"/></div>
+    <div class="mf"><label>Tester</label><input id="tstr" value="Reeva Kandroo"/></div>
+    <div class="mf"><label>Exec Date</label><input id="edate" type="date" value="2026-04-28"/></div>
+    <div class="mf" style="margin-left:auto">
+      <label>&nbsp;</label>
+      <div style="display:flex;gap:6px">
+        <button class="btn" onclick="window.print()">🖨 Print / PDF</button>
+        <button class="btn btn2" onclick="doReset()">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="sc tot"><div class="n">164</div><div class="l">Total</div></div>
+    <div class="sc pnd"><div class="n" id="s-pnd">164</div><div class="l">Pending</div></div>
+    <div class="sc pas"><div class="n" id="s-pas">0</div><div class="l">Pass</div></div>
+    <div class="sc fal"><div class="n" id="s-fal">0</div><div class="l">Fail</div></div>
+    <div class="sc blk"><div class="n" id="s-blk">0</div><div class="l">Blocked</div></div>
+    <div class="sc skp"><div class="n" id="s-skp">0</div><div class="l">Skipped</div></div>
+  </div>
+  <div class="bar"><div class="bfill" id="bfill" style="width:0%"></div></div>
+  <div class="prate">Pass rate: <strong id="prate">0%</strong></div>
+
+  <div class="card">
+    <div class="ch"><h2>Module Summary</h2></div>
+    <table>
+      <thead><tr><th>Module</th><th class="c">Total</th><th class="c">Positive</th><th class="c">Negative</th><th class="c">Edge</th></tr></thead>
+      <tbody>
+        <tr><td>Authentication</td><td class="c">15</td><td class="c pos">3</td><td class="c neg">7</td><td class="c edg">5</td></tr>
+        <tr><td>ECG Dashboard</td><td class="c">9</td><td class="c pos">6</td><td class="c neg">1</td><td class="c edg">2</td></tr>
+        <tr><td>Patient Details Form</td><td class="c">32</td><td class="c pos">14</td><td class="c neg">5</td><td class="c edg">13</td></tr>
+        <tr><td>Risk Assessment</td><td class="c">12</td><td class="c pos">8</td><td class="c neg">1</td><td class="c edg">3</td></tr>
+        <tr><td>Report Export</td><td class="c">12</td><td class="c pos">11</td><td class="c neg">1</td><td class="c edg">0</td></tr>
+        <tr><td>Security</td><td class="c">10</td><td class="c pos">5</td><td class="c neg">1</td><td class="c edg">4</td></tr>
+        <tr><td>HIPAA Compliance</td><td class="c">10</td><td class="c pos">9</td><td class="c neg">1</td><td class="c edg">0</td></tr>
+        <tr><td>Compatibility</td><td class="c">12</td><td class="c pos">11</td><td class="c neg">0</td><td class="c edg">1</td></tr>
+        <tr><td>User Friendliness</td><td class="c">12</td><td class="c pos">10</td><td class="c neg">1</td><td class="c edg">1</td></tr>
+        <tr><td>Performance & Scalability</td><td class="c">11</td><td class="c pos">7</td><td class="c neg">0</td><td class="c edg">4</td></tr>
+        <tr><td>Android Mobile</td><td class="c">14</td><td class="c pos">12</td><td class="c neg">0</td><td class="c edg">2</td></tr>
+        <tr><td>iOS Mobile</td><td class="c">15</td><td class="c pos">13</td><td class="c neg">0</td><td class="c edg">2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="ch"><h2>Test Cases</h2><span style="font-size:12px;color:#666">164 test cases</span></div>
+    <div class="fbar">
+      <select id="fm" onchange="filter()"><option value="">All Modules</option>
+        <option value="Authentication">Authentication</option>
+        <option value="ECG Dashboard">ECG Dashboard</option>
+        <option value="Patient Details Form">Patient Details Form</option>
+        <option value="Risk Assessment">Risk Assessment</option>
+        <option value="Report Export">Report Export</option>
+        <option value="Security">Security</option>
+        <option value="HIPAA Compliance">HIPAA Compliance</option>
+        <option value="Compatibility">Compatibility</option>
+        <option value="User Friendliness">User Friendliness</option>
+        <option value="Performance & Scalability">Performance & Scalability</option>
+        <option value="Android Mobile">Android Mobile</option>
+        <option value="iOS Mobile">iOS Mobile</option>
+      </select>
+      <select id="ft" onchange="filter()">
+        <option value="">All Types</option>
+        <option>Positive</option><option>Negative</option><option>Edge</option>
+      </select>
+      <select id="fs" onchange="filter()">
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option><option value="pass">Pass</option>
+        <option value="fail">Fail</option><option value="blocked">Blocked</option>
+        <option value="skip">Skipped</option>
+      </select>
+      <input id="fq" placeholder="Search…" oninput="filter()" style="width:200px"/>
+    </div>
+    <table>
+      <thead><tr><th>ID</th><th>Module</th><th>Scenario</th><th>Type</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody id="tbody">
+        <tr id="rTC001" data-module="Authentication" data-type="Positive">
+          <td class="mono">TC001</td>
+          <td class="sm">Authentication</td>
+          <td>Valid credentials redirect to ECG dashboard</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC002" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC002</td>
+          <td class="sm">Authentication</td>
+          <td>Invalid email format is rejected</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC003" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC003</td>
+          <td class="sm">Authentication</td>
+          <td>Wrong password stays on login page</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC004" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC004</td>
+          <td class="sm">Authentication</td>
+          <td>Empty email field prevents login</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC005" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC005</td>
+          <td class="sm">Authentication</td>
+          <td>Empty password field prevents login</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC006" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC006</td>
+          <td class="sm">Authentication</td>
+          <td>Both fields empty prevent login</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC007" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC007</td>
+          <td class="sm">Authentication</td>
+          <td>Non-existent user is not authenticated</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC008" data-module="Authentication" data-type="Edge">
+          <td class="mono">TC008</td>
+          <td class="sm">Authentication</td>
+          <td>SQL injection in credentials does not bypass login</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC009" data-module="Authentication" data-type="Edge">
+          <td class="mono">TC009</td>
+          <td class="sm">Authentication</td>
+          <td>XSS script in email field does not execute</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC010" data-module="Authentication" data-type="Edge">
+          <td class="mono">TC010</td>
+          <td class="sm">Authentication</td>
+          <td>Very long email (256+ characters) is rejected or handled safely</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC011" data-module="Authentication" data-type="Positive">
+          <td class="mono">TC011</td>
+          <td class="sm">Authentication</td>
+          <td>Password field is masked (type=password) — Security</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC012" data-module="Authentication" data-type="Edge">
+          <td class="mono">TC012</td>
+          <td class="sm">Authentication</td>
+          <td>Multiple failed logins do not crash the app — Security</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC013" data-module="Authentication" data-type="Negative">
+          <td class="mono">TC013</td>
+          <td class="sm">Authentication</td>
+          <td>Unauthenticated direct URL access redirects to login — Security / HIPAA</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC014" data-module="Authentication" data-type="Edge">
+          <td class="mono">TC014</td>
+          <td class="sm">Authentication</td>
+          <td>Clearing session cookies removes dashboard access — Security</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC015" data-module="Authentication" data-type="Positive">
+          <td class="mono">TC015</td>
+          <td class="sm">Authentication</td>
+          <td>No credentials exposed in page source or console — Security</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC016" data-module="ECG Dashboard" data-type="Positive">
+          <td class="mono">TC016</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>ECG list loads after successful login</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC017" data-module="ECG Dashboard" data-type="Positive">
+          <td class="mono">TC017</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>At least one ECG entry is visible in the list</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC018" data-module="ECG Dashboard" data-type="Positive">
+          <td class="mono">TC018</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>Clicking a new unprocessed ECG opens the patient detail form</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC019" data-module="ECG Dashboard" data-type="Positive">
+          <td class="mono">TC019</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>ECG detail view contains all four required patient input fields</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC020" data-module="ECG Dashboard" data-type="Edge">
+          <td class="mono">TC020</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>Rapid repeated clicks on ECG item do not crash the app — Scalability</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC021" data-module="ECG Dashboard" data-type="Positive">
+          <td class="mono">TC021</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>ECG list loads within 15 seconds — Performance</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC022" data-module="ECG Dashboard" data-type="Edge">
+          <td class="mono">TC022</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>ECG list scrolls smoothly with many entries — Scalability</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC023" data-module="ECG Dashboard" data-type="Negative">
+          <td class="mono">TC023</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>ECG list not accessible without authentication — HIPAA</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC024" data-module="ECG Dashboard" data-type="Positive">
+          <td class="mono">TC024</td>
+          <td class="sm">ECG Dashboard</td>
+          <td>ECG items show enough text to distinguish one from another — User Friendliness</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC025" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC025</td>
+          <td class="sm">Patient Details Form</td>
+          <td>All valid fields filled enables the Get Risk Assessment button</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC026" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC026</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient ID of 6 to 12 alphanumeric characters is accepted</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC027" data-module="Patient Details Form" data-type="Negative">
+          <td class="mono">TC027</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient ID shorter than 6 characters keeps risk button disabled</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC028" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC028</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient ID with special characters is rejected or sanitised — Security</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC029" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC029</td>
+          <td class="sm">Patient Details Form</td>
+          <td>XSS payload in Patient ID does not execute — Security</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC030" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC030</td>
+          <td class="sm">Patient Details Form</td>
+          <td>XSS payload in Patient Name does not execute — Security</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC031" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC031</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 45 (within valid range 18 to 150) is accepted</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC032" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC032</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 18 (exact minimum) is accepted</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC033" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC033</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 150 (exact maximum) is accepted</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC034" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC034</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 17 (one below minimum) is rejected</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC035" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC035</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 151 (one above maximum) is rejected</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC036" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC036</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 0 is rejected</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC037" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC037</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age of 999 is rejected</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC038" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC038</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Negative age (-1) is rejected</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC039" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC039</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Decimal age (1.5) is rejected</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC040" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC040</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Non-numeric text in Age field is not accepted</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC041" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC041</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Gender Male can be selected from dropdown</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC042" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC042</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Gender Female can be selected from dropdown</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC043" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC043</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Gender Other can be selected from dropdown</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC044" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC044</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient Name is optional — form valid without it</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC045" data-module="Patient Details Form" data-type="Edge">
+          <td class="mono">TC045</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient name of 101+ chars is capped at 100 by maxLength — User Friendliness</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC046" data-module="Patient Details Form" data-type="Negative">
+          <td class="mono">TC046</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Empty Patient ID keeps risk button disabled</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC047" data-module="Patient Details Form" data-type="Negative">
+          <td class="mono">TC047</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Empty Age keeps risk button disabled</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC048" data-module="Patient Details Form" data-type="Negative">
+          <td class="mono">TC048</td>
+          <td class="sm">Patient Details Form</td>
+          <td>No gender selected keeps risk button disabled</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC049" data-module="Patient Details Form" data-type="Negative">
+          <td class="mono">TC049</td>
+          <td class="sm">Patient Details Form</td>
+          <td>All fields empty keeps risk button disabled</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC050" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC050</td>
+          <td class="sm">Patient Details Form</td>
+          <td>PHI fields do not appear in the browser URL — HIPAA</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC051" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC051</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient data is not stored in browser localStorage — HIPAA</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC052" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC052</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient data is not stored in browser sessionStorage — HIPAA</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC053" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC053</td>
+          <td class="sm">Patient Details Form</td>
+          <td>PHI input fields have autocomplete disabled — HIPAA</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC054" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC054</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Patient ID aria-label marks the field as required — User Friendliness</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC055" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC055</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Age aria-label marks the field as required — User Friendliness</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC056" data-module="Patient Details Form" data-type="Positive">
+          <td class="mono">TC056</td>
+          <td class="sm">Patient Details Form</td>
+          <td>Gender dropdown button is accessible and labeled — Compatibility / User Friendliness</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC057" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC057</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Valid patient data returns a risk assessment result</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC058" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC058</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Risk result is strictly one of low, moderate, or high</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC059" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC059</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Risk result is displayed visibly in the page content</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC060" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC060</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Same patient data consistently returns the same risk value</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC061" data-module="Risk Assessment" data-type="Negative">
+          <td class="mono">TC061</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Get Risk Assessment button is disabled when form is empty</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC062" data-module="Risk Assessment" data-type="Edge">
+          <td class="mono">TC062</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Double-clicking Get Risk Assessment is handled gracefully — Scalability</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC063" data-module="Risk Assessment" data-type="Edge">
+          <td class="mono">TC063</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Risk value is never outside the three valid categories</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC064" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC064</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Risk assessment API completes within 60 seconds — Performance</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC065" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC065</td>
+          <td class="sm">Risk Assessment</td>
+          <td>No 5xx server errors occur during risk assessment — Performance</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC066" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC066</td>
+          <td class="sm">Risk Assessment</td>
+          <td>Risk assessment API returns valid HTTP status — Performance</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC067" data-module="Risk Assessment" data-type="Edge">
+          <td class="mono">TC067</td>
+          <td class="sm">Risk Assessment</td>
+          <td>App recovers if network drops mid-assessment — Performance / User Friendliness</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC068" data-module="Risk Assessment" data-type="Positive">
+          <td class="mono">TC068</td>
+          <td class="sm">Risk Assessment</td>
+          <td>No server error messages or stack traces shown to user — Security</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC069" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC069</td>
+          <td class="sm">Report Export</td>
+          <td>Export PDF button appears after risk assessment is complete</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC070" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC070</td>
+          <td class="sm">Report Export</td>
+          <td>Result page shows the correct patient name</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC071" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC071</td>
+          <td class="sm">Report Export</td>
+          <td>Result page shows the correct patient age</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC072" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC072</td>
+          <td class="sm">Report Export</td>
+          <td>Result page shows the correct patient gender</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC073" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC073</td>
+          <td class="sm">Report Export</td>
+          <td>Result page shows the correct patient ID</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC074" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC074</td>
+          <td class="sm">Report Export</td>
+          <td>Result page shows the risk assessment value</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC075" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC075</td>
+          <td class="sm">Report Export</td>
+          <td>ECG image or graph area is rendered on the result screen</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC076" data-module="Report Export" data-type="Negative">
+          <td class="mono">TC076</td>
+          <td class="sm">Report Export</td>
+          <td>Export PDF button is NOT present before risk assessment is run</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC077" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC077</td>
+          <td class="sm">Report Export</td>
+          <td>Export PDF button triggers a download or opens a new tab</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC078" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC078</td>
+          <td class="sm">Report Export</td>
+          <td>Exported result page contains patient identifier for audit trail — HIPAA</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC079" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC079</td>
+          <td class="sm">Report Export</td>
+          <td>Result page does not show another patient s data — HIPAA</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC080" data-module="Report Export" data-type="Positive">
+          <td class="mono">TC080</td>
+          <td class="sm">Report Export</td>
+          <td>No null or undefined values appear on the result page — User Friendliness</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC081" data-module="Security" data-type="Positive">
+          <td class="mono">TC081</td>
+          <td class="sm">Security</td>
+          <td>App is served over HTTPS — not plain HTTP</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC082" data-module="Security" data-type="Negative">
+          <td class="mono">TC082</td>
+          <td class="sm">Security</td>
+          <td>Unauthenticated navigation to dashboard is blocked</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC083" data-module="Security" data-type="Positive">
+          <td class="mono">TC083</td>
+          <td class="sm">Security</td>
+          <td>Session token is not exposed in browser URL</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC084" data-module="Security" data-type="Edge">
+          <td class="mono">TC084</td>
+          <td class="sm">Security</td>
+          <td>Brute force login attempts do not expose user account info</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC085" data-module="Security" data-type="Edge">
+          <td class="mono">TC085</td>
+          <td class="sm">Security</td>
+          <td>Script injection in patient name does not execute</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC086" data-module="Security" data-type="Edge">
+          <td class="mono">TC086</td>
+          <td class="sm">Security</td>
+          <td>HTML injection in Patient ID does not render as markup</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC087" data-module="Security" data-type="Edge">
+          <td class="mono">TC087</td>
+          <td class="sm">Security</td>
+          <td>Clearing cookies removes session access</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC088" data-module="Security" data-type="Positive">
+          <td class="mono">TC088</td>
+          <td class="sm">Security</td>
+          <td>Patient data does not appear in browser URL after form fill</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC089" data-module="Security" data-type="Positive">
+          <td class="mono">TC089</td>
+          <td class="sm">Security</td>
+          <td>No internal server errors exposed to the end user</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC090" data-module="Security" data-type="Positive">
+          <td class="mono">TC090</td>
+          <td class="sm">Security</td>
+          <td>Risk result page does not expose other users ECG data</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC091" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC091</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>PHI input fields have autocomplete turned off</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC092" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC092</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Password field uses safe autocomplete attribute</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC093" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC093</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Only the minimum necessary PHI fields are collected</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC094" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC094</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>PHI is not stored as plain text in browser localStorage</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC095" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC095</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>PHI is not stored as plain text in browser sessionStorage</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC096" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC096</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Login error messages do not reveal patient account details</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC097" data-module="HIPAA Compliance" data-type="Negative">
+          <td class="mono">TC097</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Patient data is inaccessible without a valid session</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC098" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC098</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Result page contains patient ID for audit traceability</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC099" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC099</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Cleared storage removes all PHI from the browser</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC100" data-module="HIPAA Compliance" data-type="Positive">
+          <td class="mono">TC100</td>
+          <td class="sm">HIPAA Compliance</td>
+          <td>Exported report includes all mandatory patient identifiers</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC101" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC101</td>
+          <td class="sm">Compatibility</td>
+          <td>App loads correctly on Google Chrome (latest)</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC102" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC102</td>
+          <td class="sm">Compatibility</td>
+          <td>App loads correctly on Mozilla Firefox (latest)</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC103" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC103</td>
+          <td class="sm">Compatibility</td>
+          <td>App loads correctly on Apple Safari (latest)</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC104" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC104</td>
+          <td class="sm">Compatibility</td>
+          <td>App renders correctly on 1920x1080 full HD desktop</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC105" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC105</td>
+          <td class="sm">Compatibility</td>
+          <td>App renders correctly on 1366x768 laptop screen</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC106" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC106</td>
+          <td class="sm">Compatibility</td>
+          <td>App renders correctly on 1024x768 tablet landscape</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC107" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC107</td>
+          <td class="sm">Compatibility</td>
+          <td>App is usable on 768px wide tablet portrait viewport</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC108" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC108</td>
+          <td class="sm">Compatibility</td>
+          <td>No horizontal scroll on 768px viewport</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC109" data-module="Compatibility" data-type="Edge">
+          <td class="mono">TC109</td>
+          <td class="sm">Compatibility</td>
+          <td>App does not crash on very small 375x667 viewport</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC110" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC110</td>
+          <td class="sm">Compatibility</td>
+          <td>All interactive elements have ARIA labels for screen readers</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC111" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC111</td>
+          <td class="sm">Compatibility</td>
+          <td>Page has a meaningful non-empty browser tab title</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC112" data-module="Compatibility" data-type="Positive">
+          <td class="mono">TC112</td>
+          <td class="sm">Compatibility</td>
+          <td>Flutter canvas element loads confirming CanvasKit is active</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC113" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC113</td>
+          <td class="sm">User Friendliness</td>
+          <td>Email field has descriptive placeholder or label text</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC114" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC114</td>
+          <td class="sm">User Friendliness</td>
+          <td>Password field has descriptive placeholder or label text</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC115" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC115</td>
+          <td class="sm">User Friendliness</td>
+          <td>Login button has a clear readable label</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC116" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC116</td>
+          <td class="sm">User Friendliness</td>
+          <td>No blank or empty screen is shown after successful login</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC117" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC117</td>
+          <td class="sm">User Friendliness</td>
+          <td>ECG list entries are visually distinguishable from each other</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC118" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC118</td>
+          <td class="sm">User Friendliness</td>
+          <td>Get Risk Assessment button is visually disabled when form is incomplete</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC119" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC119</td>
+          <td class="sm">User Friendliness</td>
+          <td>Validation error messages are human-readable</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC120" data-module="User Friendliness" data-type="Edge">
+          <td class="mono">TC120</td>
+          <td class="sm">User Friendliness</td>
+          <td>App does not crash on browser back button during ECG flow</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC121" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC121</td>
+          <td class="sm">User Friendliness</td>
+          <td>Risk result label is clearly readable and prominent</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC122" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC122</td>
+          <td class="sm">User Friendliness</td>
+          <td>Export PDF button is clearly labeled and visible on result page</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC123" data-module="User Friendliness" data-type="Positive">
+          <td class="mono">TC123</td>
+          <td class="sm">User Friendliness</td>
+          <td>Loading state is shown during risk assessment API call</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC124" data-module="User Friendliness" data-type="Negative">
+          <td class="mono">TC124</td>
+          <td class="sm">User Friendliness</td>
+          <td>User-friendly error shown when risk assessment API fails</td>
+          <td><span class="badge neg">Negative</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC125" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC125</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>Login page loads within 15 seconds on standard connection</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC126" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC126</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>ECG dashboard list renders within 15 seconds after login</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC127" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC127</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>Risk assessment result appears within 60 seconds</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC128" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC128</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>Export PDF button appears within 5 seconds of risk result</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC129" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC129</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>ECG list renders without getting stuck in a loading state</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC130" data-module="Performance & Scalability" data-type="Edge">
+          <td class="mono">TC130</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>App handles navigation through 3 ECGs without performance degradation</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC131" data-module="Performance & Scalability" data-type="Edge">
+          <td class="mono">TC131</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>Rapid ECG list scrolling does not freeze the app</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC132" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC132</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>Flutter CanvasKit initialises within 20 seconds</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC133" data-module="Performance & Scalability" data-type="Positive">
+          <td class="mono">TC133</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>No fatal JavaScript errors on page load</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC134" data-module="Performance & Scalability" data-type="Edge">
+          <td class="mono">TC134</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>App recovers after a simulated 1-second network dropout</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC135" data-module="Performance & Scalability" data-type="Edge">
+          <td class="mono">TC135</td>
+          <td class="sm">Performance & Scalability</td>
+          <td>Concurrent same-user actions do not cause data corruption</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC136" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC136</td>
+          <td class="sm">Android Mobile</td>
+          <td>Login page renders correctly on Android phone (393x851 viewport)</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC137" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC137</td>
+          <td class="sm">Android Mobile</td>
+          <td>Login form fields are tappable on Android touchscreen</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC138" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC138</td>
+          <td class="sm">Android Mobile</td>
+          <td>Successful login redirects to ECG dashboard on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC139" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC139</td>
+          <td class="sm">Android Mobile</td>
+          <td>ECG list loads and displays on Android viewport</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC140" data-module="Android Mobile" data-type="Edge">
+          <td class="mono">TC140</td>
+          <td class="sm">Android Mobile</td>
+          <td>ECG list scrolls smoothly without crashing on Android</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC141" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC141</td>
+          <td class="sm">Android Mobile</td>
+          <td>Tapping an ECG entry navigates to detail on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC142" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC142</td>
+          <td class="sm">Android Mobile</td>
+          <td>Patient form fields are visible and accessible on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC143" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC143</td>
+          <td class="sm">Android Mobile</td>
+          <td>Patient ID can be typed on Android keyboard</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC144" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC144</td>
+          <td class="sm">Android Mobile</td>
+          <td>Gender dropdown is tappable and selectable on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC145" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC145</td>
+          <td class="sm">Android Mobile</td>
+          <td>Risk assessment completes successfully on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC146" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC146</td>
+          <td class="sm">Android Mobile</td>
+          <td>Risk result is fully visible without content being cut off on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC147" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC147</td>
+          <td class="sm">Android Mobile</td>
+          <td>Export PDF button is tappable on Android</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC148" data-module="Android Mobile" data-type="Edge">
+          <td class="mono">TC148</td>
+          <td class="sm">Android Mobile</td>
+          <td>App renders correctly in Android landscape mode (736x414)</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC149" data-module="Android Mobile" data-type="Positive">
+          <td class="mono">TC149</td>
+          <td class="sm">Android Mobile</td>
+          <td>No horizontal scroll on Android portrait viewport</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC150" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC150</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Login page renders correctly on iPhone 14 (390x844 viewport)</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC151" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC151</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Login fields are tappable on iOS touchscreen</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC152" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC152</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Login redirects to ECG dashboard on iOS</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC153" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC153</td>
+          <td class="sm">iOS Mobile</td>
+          <td>ECG list loads and is visible on iOS</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC154" data-module="iOS Mobile" data-type="Edge">
+          <td class="mono">TC154</td>
+          <td class="sm">iOS Mobile</td>
+          <td>ECG list scrolls without crashing on iOS</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC155" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC155</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Tapping ECG entry navigates to detail on iOS</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC156" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC156</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Patient form fields are visible on iOS viewport</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC157" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC157</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Patient ID can be typed using iOS keyboard</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC158" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC158</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Gender dropdown works on iOS</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC159" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC159</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Risk assessment completes on iOS</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC160" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC160</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Export PDF button is visible and tappable on iOS</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC161" data-module="iOS Mobile" data-type="Edge">
+          <td class="mono">TC161</td>
+          <td class="sm">iOS Mobile</td>
+          <td>App renders correctly in iOS landscape mode (844x390)</td>
+          <td><span class="badge edg">Edge</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC162" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC162</td>
+          <td class="sm">iOS Mobile</td>
+          <td>No horizontal scroll on iOS portrait viewport</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC163" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC163</td>
+          <td class="sm">iOS Mobile</td>
+          <td>Risk result fully visible on iOS without content cropping</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+        <tr id="rTC164" data-module="iOS Mobile" data-type="Positive">
+          <td class="mono">TC164</td>
+          <td class="sm">iOS Mobile</td>
+          <td>App works on iPad viewport (768x1024)</td>
+          <td><span class="badge pos">Positive</span></td>
+          <td>
+            <select class="sel" onchange="recalc()">
+              <option value="pending">⬜ Pending</option>
+              <option value="pass">✅ Pass</option>
+              <option value="fail">❌ Fail</option>
+              <option value="blocked">🚫 Blocked</option>
+              <option value="skip">⏭ Skip</option>
+            </select>
+          </td>
+          <td><input class="note" type="text" placeholder="Notes…"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+function recalc(){
+  const sels=document.querySelectorAll('.sel');
+  const c={pending:0,pass:0,fail:0,blocked:0,skip:0};
+  sels.forEach(s=>c[s.value]=(c[s.value]||0)+1);
+  document.getElementById('s-pnd').textContent=c.pending;
+  document.getElementById('s-pas').textContent=c.pass;
+  document.getElementById('s-fal').textContent=c.fail;
+  document.getElementById('s-blk').textContent=c.blocked;
+  document.getElementById('s-skp').textContent=c.skip;
+  const pct=sels.length?Math.round(c.pass/sels.length*100):0;
+  document.getElementById('prate').textContent=pct+'%';
+  document.getElementById('bfill').style.width=pct+'%';
+}
+function retitle(){
+  const v=document.getElementById('ver').value;
+  const c=document.getElementById('cyc').value;
+  document.title='CardioCheck v'+v+' — '+c+' — Execution Report';
+}
+function filter(){
+  const fm=document.getElementById('fm').value;
+  const ft=document.getElementById('ft').value;
+  const fs=document.getElementById('fs').value;
+  const fq=document.getElementById('fq').value.toLowerCase();
+  document.querySelectorAll('#tbody tr').forEach(r=>{
+    const mod=r.dataset.module||'';
+    const typ=r.dataset.type||'';
+    const sts=r.querySelector('.sel').value;
+    const txt=r.textContent.toLowerCase();
+    r.style.display=((!fm||mod===fm)&&(!ft||typ===ft)&&(!fs||sts===fs)&&(!fq||txt.includes(fq)))?'':'none';
+  });
+}
+function doReset(){
+  if(!confirm('Reset all statuses to Pending?'))return;
+  document.querySelectorAll('.sel').forEach(s=>s.value='pending');
+  document.querySelectorAll('.note').forEach(n=>n.value='');
+  recalc();
+}
+recalc();retitle();
+</script>
+</body>
+</html>
